@@ -13,7 +13,6 @@ class MVC_GENERATOR
         $this->generate_core();
         $this->generate_layout();
         $this->generate_main_mvc();
-        $this->generate_controller_helper();
     }
     function wrap($path,$content)
     {
@@ -579,68 +578,6 @@ class Error_Model extends Model
         mkdir(PATH . SL . "app/views/error/", 0700);
         $content = "";
         $this->wrap("app/views/error/indexView.php",$content);
-    }
-
-    function generate_controller_helper()
-    {
-        $content = "<?php
-
-/**
- * ActionHelper : Selection_Db
- *
- * @author   Boston Lee <alexey.sysoev.dev@gmail.com>
- * @version  1.0
- * @access   public
- * (c) 2015 Boston Lee Creative Solutions
- */
-class Action_Helper_Selection_Db extends Bootstrap
-{
-
-    /**
-     * Call db function and return array data
-     * action : call
-     *
-     * @param string \$className class name of model
-     * @param string \$funcName function name of model class
-     * @param mixed \$value sending data dataBase
-     * @return mixed \$Data sample of data from dataBase
-     * @access public
-     **/
-    static function call(\$className, \$funcName, \$value = null)
-    {
-        global \$Data;
-        \$className = new \$className;
-        \$Data = \$className->\$funcName(\$value);
-        return \$Data;
-    }
-}
-        ";
-        $this->wrap("app/actionHelpers/selection_db.php",$content);
-
-
-        $content = "<?php
-
-class Action_Helper_Special extends Bootstrap
-{
-    static function checkAjax()
-    {
-        if(!empty(\$_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(\$_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') { return true;}
-        else { Route::error404(\"Page not found\");}
-    }
-    static function errorDebug(\$result)
-    {
-        if(\$result != \"\")
-        {
-            echo json_encode(array('error'=>\$result));
-        }
-    }
-    static function redirect(\$href)
-    {
-        header(\"Location: \".\$href);
-        die();
-    }
-}";
-        $this->wrap("app/actionHelpers/special.php",$content);
     }
 }
 $go = new MVC_GENERATOR();
