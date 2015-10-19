@@ -55,59 +55,65 @@ class MVC_GENERATOR
     function generate_index_main()
     {
         $content = "<?php
+class init
+{
+    function __construct()
+    {
+        DEFINED('DEBUG')        OR DEFINE('DEBUG', true);
 
-DEFINED('DEBUG')        OR DEFINE('DEBUG', true);
+        DEFINED('SL')           OR DEFINE('SL', '/');
 
-DEFINED('SL')           OR DEFINE('SL', '/');
+        DEFINED('PATH')         OR DEFINE('PATH', realpath(dirname(__FILE__)));
+        DEFINED('APP_PATH')     OR DEFINE('APP_PATH', PATH . SL . 'app');
+        DEFINED('CORE_PATH')    OR DEFINE('CORE_PATH', APP_PATH . SL . 'core');
+        DEFINED('PUBLIC_PATH')  OR DEFINE('PUBLIC_PATH', PATH . SL . 'public');
 
-DEFINED('PATH')         OR DEFINE('PATH', realpath(dirname(__FILE__)));
-DEFINED('APP_PATH')     OR DEFINE('APP_PATH', PATH . SL . 'app');
-DEFINED('CORE_PATH')    OR DEFINE('CORE_PATH', APP_PATH . SL . 'core');
-DEFINED('PUBLIC_PATH')  OR DEFINE('PUBLIC_PATH', PATH . SL . 'public');
+        DEFINED('PUBLIC_PATH_HTML')  OR DEFINE('PUBLIC_PATH_HTML', SL . 'public');
 
-DEFINED('PUBLIC_PATH_HTML')  OR DEFINE('PUBLIC_PATH_HTML', SL . 'public');
+        DEFINED('CSS_PATH')  OR DEFINE('CSS_PATH', PUBLIC_PATH_HTML . SL . 'css');
+        DEFINED('JS_PATH')  OR DEFINE('JS_PATH', PUBLIC_PATH_HTML . SL . 'js');
+        DEFINED('IMG_PATH')  OR DEFINE('IMG_PATH', PUBLIC_PATH_HTML . SL . 'images');
 
-DEFINED('CSS_PATH')  OR DEFINE('CSS_PATH', PUBLIC_PATH_HTML . SL . 'css');
-DEFINED('JS_PATH')  OR DEFINE('JS_PATH', PUBLIC_PATH_HTML . SL . 'js');
-DEFINED('IMG_PATH')  OR DEFINE('IMG_PATH', PUBLIC_PATH_HTML . SL . 'images');
+        DEFINED('UPLOAD_PATH')  OR DEFINE('UPLOAD_PATH', \$_SERVER['DOCUMENT_ROOT'] . SL . 'public/upload/');
 
-DEFINED('UPLOAD_PATH')  OR DEFINE('UPLOAD_PATH', \$_SERVER['DOCUMENT_ROOT'] . SL . 'public/upload/');
+        DEFINED('CONTROLLER_PATH')  OR DEFINE('CONTROLLER_PATH', APP_PATH . SL . 'controllers');
+        DEFINED('VIEW_PATH')        OR DEFINE('VIEW_PATH', APP_PATH . SL . 'views');
+        DEFINED('MODEL_PATH')       OR DEFINE('MODEL_PATH', APP_PATH . SL . 'models');
 
-DEFINED('CONTROLLER_PATH')  OR DEFINE('CONTROLLER_PATH', APP_PATH . SL . 'controllers');
-DEFINED('VIEW_PATH')        OR DEFINE('VIEW_PATH', APP_PATH . SL . 'views');
-DEFINED('MODEL_PATH')       OR DEFINE('MODEL_PATH', APP_PATH . SL . 'models');
-
-DEFINED('MODULES_PATH')       OR DEFINE('MODULES_PATH', APP_PATH . SL . 'modules');
-
-
-DEFINED('DEF_CONTROLLER')  OR DEFINE('DEF_CONTROLLER', CONTROLLER_PATH . SL . 'IndexController.php');
-DEFINED('DEF_VIEW')        OR DEFINE('DEF_VIEW', 'indexView.php');
-DEFINED('DEF_VIEW_PATH')   OR DEFINE('DEF_VIEW_PATH', VIEW_PATH . SL . 'index' . SL . DEF_VIEW);
-
-DEFINED('LAYOUT')          OR DEFINE('LAYOUT', 'default.php');
-
-DEFINED('LAYOUT_PATH')     OR DEFINE('LAYOUT_PATH', VIEW_PATH . SL . 'layouts');
-DEFINED('DEF_LAYOUT')      OR DEFINE('DEF_LAYOUT', LAYOUT_PATH . SL . LAYOUT);
-
-DEFINED('LOGIN_PAGE')      OR DEFINE('LOGIN_PAGE', '/index/login');
+        DEFINED('MODULES_PATH')       OR DEFINE('MODULES_PATH', APP_PATH . SL . 'modules');
 
 
-DEFINED('SITE_URL')      OR DEFINE('SITE_URL', 'http://' . \$_SERVER['SERVER_NAME']);
+        DEFINED('DEF_CONTROLLER')  OR DEFINE('DEF_CONTROLLER', CONTROLLER_PATH . SL . 'IndexController.php');
+        DEFINED('DEF_VIEW')        OR DEFINE('DEF_VIEW', 'indexView.php');
+        DEFINED('DEF_VIEW_PATH')   OR DEFINE('DEF_VIEW_PATH', VIEW_PATH . SL . 'index' . SL . DEF_VIEW);
 
-DEFINED('SHOP_SESSION_INTERVAL_DELETE')      OR DEFINE('SHOP_SESSION_INTERVAL_DELETE', '3');
+        DEFINED('LAYOUT')          OR DEFINE('LAYOUT', 'default.php');
 
-global \$config;
-global \$isAdmin;
-\$isAdmin = false;
-global \$titlePage;
+        DEFINED('LAYOUT_PATH')     OR DEFINE('LAYOUT_PATH', VIEW_PATH . SL . 'layouts');
+        DEFINED('DEF_LAYOUT')      OR DEFINE('DEF_LAYOUT', LAYOUT_PATH . SL . LAYOUT);
+
+        DEFINED('LOGIN_PAGE')      OR DEFINE('LOGIN_PAGE', '/index/login');
+
+
+        DEFINED('SITE_URL')      OR DEFINE('SITE_URL', 'http://' . \$_SERVER['SERVER_NAME']);
+
+        DEFINED('SHOP_SESSION_INTERVAL_DELETE')      OR DEFINE('SHOP_SESSION_INTERVAL_DELETE', '3');
+
+        global \$config;
+        global \$isAdmin;
+        \$isAdmin = false;
+        global \$titlePage;
 
 
 
-\$config = parse_ini_file(APP_PATH . SL . 'config.ini', 1);
-/** @noinspection PhpIncludeInspection */
-include_once(APP_PATH . SL . 'bootstrap.php');
+        \$config = parse_ini_file(APP_PATH . SL . 'config.ini', 1);
+        /** @noinspection PhpIncludeInspection */
+        include_once(APP_PATH . SL . 'bootstrap.php');
 
-Bootstrap::init();";
+        Bootstrap::init();
+    }
+}
+\$Init = new init();";
         $this->wrap("index.php",$content);
     }
     function generate_bootstrap()
